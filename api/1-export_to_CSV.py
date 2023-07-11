@@ -1,35 +1,28 @@
 #!/usr/bin/python3
 """Use python script to export data in CSV format"""
-import csv
-import requests
-from sys import argv
-
-
-def CSV():
-    """return API data"""
-    users = requests.get("http://jsonplaceholder.typicode.com/users")
-    for u in users.json():
-        if u.get('id') == int(argv[1]):
-            USERNAME = (u.get('username'))
-            break
-    TASK_STATUS_TITLE = []
-    todos = requests.get("http://jsonplaceholder.typicode.com/todos")
-    for t in todos.json():
-        if t.get('userId') == int(argv[1]):
-            TASK_STATUS_TITLE.append((t.get('completed'), t.get('title')))
-
-    """export to csv"""
-    filename = "{}.csv".format(argv[1])
-    with open(filename, "w") as csvfile:
-        fieldnames = ["USER_ID", "USERNAME",
-                      "TASK_COMPLETED_STATUS", "TASK_TITLE"]
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames,
-                                quoting=csv.QUOTE_ALL)
-        for task in TASK_STATUS_TITLE:
-            writer.writerow({"USER_ID": argv[1], "USERNAME": USERNAME,
-                             "TASK_COMPLETED_STATUS": task[0],
-                             "TASK_TITLE": task[1]})
-
 
 if __name__ == "__main__":
-    CSV()
+    import requests
+    from sys import argv
+    import csv
+
+    user_URL = 'https://jsonplaceholder.typicode.com/users/{}'.format(argv[1])
+    employee = requests.get(user_URL).json()
+    employ_username = employee.get('username')
+
+    tasks_URL = 'https://jsonplaceholder.typicode.com/users/{}/todos'.format(
+        argv[1])
+    all_tasks = requests.get(tasks_URL).json()
+
+    filename = "{}.csv".format(argv[1])
+    with open(filename, 'w') as f:
+        f.write("")
+    for task in all_tasks:
+        with open(filename, 'a', newline='') as f:
+            csv_writer = csv.writer(f, quoting=csv.QUOTE_ALL)
+            values = []
+            values.append("{}".format(argv[1]))
+            values.append("{}".format(employ_username))
+            values.append("{}".format(task.get('completed')))
+            values.append("{}".format(task.get('title')))
+            csv_writer.writerow(values)
