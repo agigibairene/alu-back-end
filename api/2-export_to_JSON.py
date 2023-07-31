@@ -3,6 +3,7 @@
 Request from API; Return TODO list progress given employee ID
 Export this data to JSON
 """
+
 from sys import argv
 import json
 import requests
