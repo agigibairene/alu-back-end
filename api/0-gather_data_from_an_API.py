@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Use REST API for an employee OD, return 
+"""Use REST API for an employee OD, return
 the information about his/her TODO list progress"""
 
 import requests
