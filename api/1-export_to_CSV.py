@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Use python script to export data in CSV format"""
 
+
 if __name__ == "__main__":
     import requests
     from sys import argv
